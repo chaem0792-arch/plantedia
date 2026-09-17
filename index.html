@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학교 식물 수사대 - 홈</title>
+  <style>
+    :root {
+      --primary-color: #2e7d32;
+      --secondary-color: #81c784;
+      --bg-color: #f1f8e9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .main-container {
+      background: var(--card-bg);
+      width: 100%;
+      max-width: 480px;
+      padding: 35px 25px;
+      border-radius: 28px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .logo-badge {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      animation: bounce 2s infinite;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    p.subtitle {
+      color: #666;
+      font-size: 0.95rem;
+      margin-bottom: 30px;
+      line-height: 1.4;
+    }
+
+    .menu-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .menu-card {
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: white;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn-search {
+      background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+    }
+
+    .btn-gallery {
+      background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+    }
+
+    .menu-icon {
+      font-size: 2.2rem;
+      margin-right: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-text {
+      text-align: left;
+    }
+
+    .menu-title {
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    .menu-desc {
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 0.8rem;
+      color: #888;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="main-container">
+  <div class="logo-badge">🔍🌱</div>
+  <h1>학교 식물 수사대</h1>
+  <p class="subtitle">우리 학교에 살고 있는 다양한 식물을<br>이분검색표로 찾아보고 탐구해보세요!</p>
+
+  <div class="menu-group">
+    <!-- 기존 퀴즈 게임 페이지로 이동 -->
+    <a href="quiz.html" class="menu-card btn-search">
+      <div class="menu-icon">🕵️‍♂️</div>
+      <div class="menu-text">
+        <div class="menu-title">식물 검색하기 (퀴즈)</div>
+        <div class="menu-desc">식물의 특징에 답하며 이름을 찾아요</div>
+      </div>
+    </a>
+
+    <!-- 식물 도감 목록 페이지로 이동 -->
+    <a href="gallery.html" class="menu-card btn-gallery">
+      <div class="menu-icon">📖</div>
+      <div class="menu-text">
+        <div class="menu-title">학교 식물 도감 보기</div>
+        <div class="menu-desc">이분표 기반 식물의 주요 특징 모음</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="footer">
+    🌿 학교 생태 탐구 프로그램
+  </div>
+</div>
+
+</body>
+</html>
