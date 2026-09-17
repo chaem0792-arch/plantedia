@@ -1,400 +1,340 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>학교 식물 탐정 - 이분검색표 게임</title>
-  <style>
-    :root {
-      --primary-color: #2e7d32;
-      --secondary-color: #81c784;
-      --bg-color: #f1f8e9;
-      --card-bg: #ffffff;
-      --text-color: #333333;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>학교 식물 탐험대! - 이분검색표 게임</title>
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --primary-hover: #1b5e20;
+            --bg-color: #f1f8e9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #81c784;
+        }
 
-    body {
-      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      box-sizing: border-box;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+        }
 
-    .game-container {
-      background: var(--card-bg);
-      width: 100%;
-      max-width: 500px;
-      padding: 25px;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
-    }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
 
-    h1 {
-      color: var(--primary-color);
-      font-size: 1.5rem;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
+        .container {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .question-box {
-      font-size: 1.1rem;
-      font-weight: bold;
-      margin-bottom: 20px;
-      padding: 15px;
-      background-color: #e8f5e9;
-      border-radius: 12px;
-      color: #1b5e20;
-    }
+        header h1 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
 
-    .options-container {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+        header p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
 
-    .btn-option {
-      background-color: #fff;
-      border: 2px solid var(--secondary-color);
-      color: var(--text-color);
-      padding: 15px 20px;
-      font-size: 1rem;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      text-align: left;
-      line-height: 1.4;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+        .progress-bar {
+            background-color: #e0e0e0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
 
-    .btn-option:hover {
-      background-color: var(--secondary-color);
-      color: white;
-      transform: translateY(-2px);
-    }
+        .progress {
+            background-color: var(--accent-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
 
-    .btn-option::after {
-      content: '➔';
-      font-weight: bold;
-    }
+        .step-badge {
+            display: inline-block;
+            background-color: #e8f5e9;
+            color: var(--primary-color);
+            font-weight: bold;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
 
-    .result-box {
-      display: none;
-      animation: fadeIn 0.5s ease;
-    }
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            word-break: keep-all;
+        }
 
-    .result-box h2 {
-      color: var(--primary-color);
-      font-size: 1.8rem;
-      margin: 10px 0;
-    }
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    .result-icon {
-      font-size: 4rem;
-      margin-bottom: 10px;
-    }
+        .option-btn {
+            background-color: #fff;
+            border: 2px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 16px 20px;
+            font-size: 1.05rem;
+            color: var(--text-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-    .btn-reset {
-      margin-top: 25px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1rem;
-      border-radius: 25px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
+        .option-btn:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+        }
 
-    .btn-reset:hover {
-      background-color: #1b5e20;
-    }
+        .result-box {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
+        .result-box h2 {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .plant-name {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .plant-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-restart {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-restart:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-back {
+            background-color: #eee;
+            color: #555;
+        }
+
+        .btn-back:hover {
+            background-color: #ddd;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
-<div class="game-container">
-  <h1>🌿 학교 식물 수사대</h1>
-  
-  <div id="quiz-screen">
-    <div class="question-box" id="question-text">특징을 선택해주세요!</div>
-    <div class="options-container" id="options-box">
-      <!-- 버튼이 동적으로 생성됩니다 -->
-    </div>
-  </div>
+<div class="container">
+    <header>
+        <h1>🌿 학교 식물 탐험대</h1>
+        <p>질문에 답을 선택하며 학교 안 식물의 이름을 찾아보세요!</p>
+    </header>
 
-  <div class="result-box" id="result-screen">
-    <div class="result-icon">🔍🌱</div>
-    <p>당신이 찾은 식물은 바로!</p>
-    <h2 id="plant-name">식물 이름</h2>
-    <button class="btn-reset" onclick="startQuiz()">다시 찾기</button>
-  </div>
+    <!-- Quiz Mode -->
+    <div id="quiz-box">
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        <div class="step-badge" id="step-badge">단계 1</div>
+        <div class="question-text">관찰하고 있는 식물의 특징을 선택하세요.</div>
+        
+        <div class="options-container">
+            <button class="option-btn" id="opt-a" onclick="selectOption('a')">
+                <span id="text-a"></span>
+                <span>➔</span>
+            </button>
+            <button class="option-btn" id="opt-b" onclick="selectOption('b')">
+                <span id="text-b"></span>
+                <span>➔</span>
+            </button>
+        </div>
+
+        <div class="btn-group" style="margin-top: 20px;">
+            <button class="action-btn btn-back" id="back-btn" onclick="goBack()" style="display: none;">⬅ 이전으로</button>
+        </div>
+    </div>
+
+    <!-- Result Mode -->
+    <div id="result-box" class="result-box">
+        <div class="plant-icon">🌱</div>
+        <h2>찾은 식물 이름</h2>
+        <div class="plant-name" id="plant-name">식물 이름</div>
+        
+        <div class="btn-group">
+            <button class="action-btn btn-back" onclick="goBack()">⬅ 이전으로</button>
+            <button class="action-btn btn-restart" onclick="restart()">🔄 다시 찾기</button>
+        </div>
+    </div>
 </div>
 
 <script>
-  // 이분검색표 데이터베이스
-  const keyTree = {
-    1: {
-      a: { text: "줄기가 다른 물체를 감거나 타고 오른다", next: 2 },
-      b: { text: "그렇지 않다", next: 3 }
-    },
-    2: {
-      a: { text: "잎이 한 장씩 달리는 덩굴이다", result: "계요등" },
-      b: { text: "작은 잎이 여러 장 달리고 주황색 나팔꽃이 핀다", result: "능소화" }
-    },
-    3: {
-      a: { text: "줄기에 마디가 뚜렷하고 대처럼 곧다", result: "대나무" },
-      b: { text: "그렇지 않다", next: 4 }
-    },
-    4: {
-      a: { text: "잎이 바늘 모양, 짧은 침 모양, 또는 비늘 모양이다", next: 5 },
-      b: { text: "잎이 넓은 판처럼 보인다", next: 15 }
-    },
-    5: {
-      a: { text: "가을에 잎이 떨어진다", next: 6 },
-      b: { text: "사계절 푸르다", next: 7 }
-    },
-    6: {
-      a: { text: "부드러운 침엽이 줄에 평평하게 달리고 키가 매우 곧다", result: "메타세콰이어" }
-    },
-    7: {
-      a: { text: "잎이 2개 또는 5개씩 묶여 난다", next: 8 },
-      b: { text: "잎이 묶이지 않고 하나씩 나거나 비늘처럼 붙는다", next: 10 }
-    },
-    8: {
-      a: { text: "잎이 2개씩 묶인다", result: "소나무" },
-      b: { text: "잎이 5개씩 묶인다", next: 9 }
-    },
-    9: {
-      a: { text: "잎이 길고 부드러운 느낌이다", result: "오엽송" },
-      b: { text: "잎이 비교적 짧고 굵으며 잣이 달린다", result: "섬잣나무" }
-    },
-    10: {
-      a: { text: "잎이 납작하고 부드러우며 붉은 열매 같은 부분이 보인다", result: "주목" },
-      b: { text: "그렇지 않다", next: 11 }
-    },
-    11: {
-      a: { text: "잎이 실처럼 가늘고 늘어진다", result: "실화백" },
-      b: { text: "그렇지 않다", next: 12 }
-    },
-    12: {
-      a: { text: "가지가 납작한 한 평면으로 퍼진다", result: "측백나무" },
-      b: { text: "가지가 입체적으로 퍼진다", next: 13 }
-    },
-    13: {
-      a: { text: "잎이나 가지를 만지면 향이 강하다", result: "향나무" },
-      b: { text: "향이 강하지 않고 바늘잎이 가지 둘레를 따라 난다", result: "가문비나무" }
-    },
-    15: {
-      a: { text: "잎이 부채 모양이다", result: "은행나무" },
-      b: { text: "잎이 부채 모양이 아니다", next: 16 }
-    },
-    16: {
-      a: { text: "작은 잎이 여러 장 모인 복엽이다", next: 17 },
-      b: { text: "잎이 한 장짜리 단엽이다", next: 24 }
-    },
-    17: {
-      a: { text: "한 점에서 잎 5~7장이 손바닥처럼 퍼진다", result: "칠엽수" },
-      b: { text: "깃꼴로 배열된 복엽이다", next: 18 }
-    },
-    18: {
-      a: { text: "작은 잎이 매우 많고 두 번 깃꼴로 갈라진다", result: "자귀나무" },
-      b: { text: "한 번 깃꼴로 갈라진다", next: 19 }
-    },
-    19: {
-      a: { text: "줄기나 가지에 가시가 있다", next: 20 },
-      b: { text: "가시가 없다", next: 22 }
-    },
-    20: {
-      a: { text: "줄기가 낮게 퍼지고 잎이 두껍고 주름지며 꽃이 크다", result: "만첩해당화" },
-      b: { text: "그렇지 않다", next: 21 }
-    },
-    21: {
-      a: { text: "꽃이 크고 원예 품종 느낌이 강하며 자주 핀다", result: "장미 또는 월계화" },
-      b: { text: "꽃이 더 작고 야생 장미 느낌이 난다", result: "찔레" }
-    },
-    22: {
-      a: { text: "잎이 매우 크고 문지르면 냄새가 강하다", result: "가죽나무" },
-      b: { text: "관목이고 마주나는 복엽을 가진다", result: "딱총나무" }
-    },
-    24: {
-      a: { text: "잎이 손바닥처럼 깊게 갈라진다", next: 25 },
-      b: { text: "잎이 갈라지지 않거나 약하게만 갈라진다", next: 30 }
-    },
-    25: {
-      a: { text: "상록이며 잎이 매우 크고 두껍다", result: "팔손이" },
-      b: { text: "낙엽성이며 잎이 갈라진다", next: 26 }
-    },
-    26: {
-      a: { text: "잎 갈래가 매우 가늘고 깊다", result: "공작단풍" },
-      b: { text: "잎 갈래가 비교적 넓다", next: 27 }
-    },
-    27: {
-      a: { text: "단풍잎처럼 보이며 가을 색이 아름답다", result: "단풍" },
-      b: { text: "그렇지 않다", next: 28 }
-    },
-    28: {
-      a: { text: "잎이 깊게 갈라지고 큰 꽃을 피우는 관목이다", result: "모란" },
-      b: { text: "잎이 자주 갈라지고 열매가 오디처럼 달린다", result: "뽕나무" }
-    },
-    30: {
-      a: { text: "잎이 서로 마주나게 달린다", next: 31 },
-      b: { text: "잎이 어긋나게 달린다", next: 40 }
-    },
-    31: {
-      a: { text: "겨울에도 잎이 남아 있다", next: 32 },
-      b: { text: "겨울에 잎이 진다", next: 35 }
-    },
-    32: {
-      a: { text: "잎이 아주 작고 두껍고 가지가 빽빽하다", result: "회양목" },
-      b: { text: "잎이 그보다 크다", next: 33 }
-    },
-    33: {
-      a: { text: "잎 가장자리에 잔톱니가 있고 상록 관목이다", result: "사철나무" },
-      b: { text: "잎이 비교적 매끈하고 검은 열매가 달린다", result: "쥐똥나무" }
-    },
-    35: {
-      a: { text: "이른 봄 잎보다 먼저 노란 꽃이 핀다", result: "개나리" },
-      b: { text: "그렇지 않다", next: 36 }
-    },
-    36: {
-      a: { text: "잎맥이 활처럼 휘고 가을에 빨간 열매가 달린다", result: "산수유" },
-      b: { text: "그렇지 않다", next: 37 }
-    },
-    37: {
-      a: { text: "나무껍질이 매끈하고 얼룩처럼 벗겨지며 여름꽃이 핀다", result: "배롱나무" },
-      b: { text: "그렇지 않다", next: 38 }
-    },
-    38: {
-      a: { text: "보라색 열매가 줄기 둘레에 빽빽하게 달린다", result: "작살나무" },
-      b: { text: "그렇지 않다", next: 39 }
-    },
-    39: {
-      a: { text: "가지가 층층이 수평으로 퍼진다", result: "층층나무" },
-      b: { text: "붉은 꽃과 둥근 열매가 특징이다", result: "석류나무" }
-    },
-    40: {
-      a: { text: "사계절 잎이 남는다", next: 41 },
-      b: { text: "낙엽이 진다", next: 43 }
-    },
-    41: {
-      a: { text: "잎이 두껍고 윤이 나며 붉은 꽃을 피운다", result: "동백나무" }
-    },
-    43: {
-      a: { text: "줄기나 가지에 가시가 있다", next: 44 },
-      b: { text: "가시가 없다", next: 46 }
-    },
-    44: {
-      a: { text: "이른 봄 붉은 꽃이 피고 열매가 모과처럼 생긴다", result: "명자나무" },
-      b: { text: "가시가 있으면서 복엽이다", result: "장미류(장미·월계화·찔레·만첩해당화)" }
-    },
-    46: {
-      a: { text: "꽃이 잎보다 먼저 또는 거의 동시에 핀다", next: 47 },
-      b: { text: "꽃이 잎이 난 뒤 피거나 꽃보다 잎 관찰이 더 쉽다", next: 53 }
-    },
-    47: {
-      a: { text: "꽃이 진달래류처럼 깔때기 모양이다", next: 48 },
-      b: { text: "꽃이 나무꽃 또는 과수꽃 모양이다", next: 49 }
-    },
-    48: {
-      a: { text: "꽃이 잎보다 먼저 피는 편이다", result: "진달래" },
-      b: { text: "꽃과 잎이 거의 같이 나온다", result: "철쭉" }
-    },
-    49: {
-      a: { text: "꽃이 매우 크고 목련 모양이다", result: "목련" },
-      b: { text: "그렇지 않다", next: 50 }
-    },
-    50: {
-      a: { text: "열매에 털이 많고 잎이 길고 좁다", result: "복사나무" },
-      b: { text: "열매에 털이 거의 없거나 작다", next: 51 }
-    },
-    51: {
-      a: { text: "줄기껍질에 가로 줄무늬가 뚜렷하고 꽃이 무리지어 핀다", result: "벚나무" },
-      b: { text: "꽃이 거의 하나씩 피고 열매가 더 작거나 둥글다", next: 52 }
-    },
-    52: {
-      a: { text: "열매가 아주 작고 체리처럼 달린다", result: "앵도나무" },
-      b: { text: "잎이 더 넓고 살구가 열린다", result: "살구나무" },
-      c: { text: "꽃향기가 있고 매실이 열린다", result: "매화나무" }
-    },
-    53: {
-      a: { text: "잎 뒷면이 은빛처럼 보인다", result: "뜰보리수" },
-      b: { text: "그렇지 않다", next: 54 }
-    },
-    54: {
-      a: { text: "잎 가장자리가 거의 밋밋하고 감 열매가 열린다", result: "감나무" },
-      b: { text: "잎에 톱니가 있거나 다른 특징이 있다", next: 55 }
-    },
-    55: {
-      a: { text: "큰 그늘나무이며 잎밑부분이 비대칭이다", result: "느티나무" },
-      b: { text: "그렇지 않다", next: 56 }
-    },
-    56: {
-      a: { text: "여름에 큰 무궁화꽃이 피는 관목이다", result: "무궁화" },
-      b: { text: "나무껍질이 벗겨지고 노란 향기 나는 열매가 열린다", result: "모과" }
+    // 이분검색표 데이터베이스
+    const keyData = {
+        1: { a: ["줄기가 감거나 타고 올라간다", 2], b: ["스스로 곧게 자란다", 3] },
+        2: { a: ["잎이 한 장씩 달린다", "계요등"], b: ["작은 잎이 여러 장 달린다", "능소화"] },
+        3: { a: ["줄기에 마디가 뚜렷하고 속이 비어 있다", "대나무"], b: ["마디가 없는 목질 줄기", 4] },
+        4: { a: ["잎이 바늘·침·비늘 모양", 5], b: ["잎이 넓은 판 모양", 13] },
+        5: { a: ["가을에 모든 잎이 떨어짐", "메타세콰이어"], b: ["사계절 푸른 상록", 6] },
+        6: { a: ["잎이 2개 또는 5개씩 다발로 묶임", 7], b: ["잎이 하나씩 나거나 비늘처럼 붙음", 9] },
+        7: { a: ["잎이 2개씩 묶임", "소나무"], b: ["잎이 5개씩 묶임", 8] },
+        8: { a: ["잎이 길고 부드러운 느낌", "오엽송"], b: ["잎이 짧고 굵음", "섬잣나무"] },
+        9: { a: ["잎이 납작하고 부드러우며 붉은 열매 같은 부분이 보임", "주목"], b: ["그렇지 않음", 10] },
+        10: { a: ["잎과 가지가 실처럼 가늘고 늘어남", "실화백"], b: ["그렇지 않음", 11] },
+        11: { a: ["가지가 납작한 평면으로 퍼짐", "측백나무"], b: ["가지가 입체적으로 퍼짐", 12] },
+        12: { a: ["만지면 향이 강함", "향나무"], b: ["향이 약하거나 없음", "가문비나무"] },
+        13: { a: ["잎이 부채 모양", "은행나무"], b: ["잎이 부채 모양 아님", 14] },
+        14: { a: ["작은 잎이 여러 장 모인 겹잎", 15], b: ["한 장짜리 홑잎", 21] },
+        15: { a: ["한 점에서 잎 5~7장이 손바닥처럼 퍼짐", "칠엽수"], b: ["깃꼴로 배열된 겹잎", 16] },
+        16: { a: ["작은 잎이 매우 많고 두 번 깃꼴로 갈라짐", "자귀나무"], b: ["한 번 깃꼴로 갈라짐", 17] },
+        17: { a: ["줄기·가지에 가시 있음", 18], b: ["가시 없음", 20] },
+        18: { a: ["줄기가 낮고 퍼지며 잎이 두껍고 주름짐", "만첩해당화"], b: ["그렇지 않음", 19] },
+        19: { a: ["가지가 불규칙하게 휘고 가시가 뚜렷함", "장미 또는 월계화"], b: ["가지가 곧고 가시가 작음", "찔레"] },
+        20: { a: ["잎이 매우 크고 문지르면 냄새 강함", "가죽나무"], b: ["관목이고 잎이 마주남", "딱총나무"] },
+        21: { a: ["잎이 손바닥처럼 깊게 갈라짐", 22], b: ["잎이 갈라지지 않거나 약함", 26] },
+        22: { a: ["사계절 푸르고 잎이 매우 두꺼움", "팔손이"], b: ["가을에 잎이 떨어짐", 23] },
+        23: { a: ["잎 갈래가 가늘고 깊음", "공작단풍"], b: ["잎 갈래가 비교적 넓음", 24] },
+        24: { a: ["잎이 마주나고 가을색이 선명", "단풍"], b: ["잎이 어긋남", 25] },
+        25: { a: ["잎이 극도로 깊게 갈라져 거의 분리된 모양", "모란"], b: ["한 나무에 잎 형태가 다양함 (단엽, 2갈래, 5갈래 등)", "뽕나무"] },
+        26: { a: ["잎이 마주남", 27], b: ["잎이 어긋남", 35] },
+        27: { a: ["사계절 잎이 남음 (상록)", 28], b: ["겨울에 잎이 떨어짐 (낙엽)", 30] },
+        28: { a: ["잎이 아주 작고 두껍고 가지가 빽빽함", "회양목"], b: ["잎이 그보다 큼", 29] },
+        29: { a: ["잎 가장자리에 잔톱니 있고 광택 있음", "사철나무"], b: ["잎이 매끈하고 윤기 있음", "쥐똥나무"] },
+        30: { a: ["가지가 노란색 또는 윤기나는 갈색", "개나리"], b: ["가지가 다른 색", 31] },
+        31: { a: ["잎맥이 활처럼 휘고 잎이 길쭉함", "산수유"], b: ["그렇지 않음", 32] },
+        32: { a: ["나무껍질이 매끈하고 얼룩처럼 벗겨짐", "배롱나무"], b: ["나무껍질이 그렇지 않음", 33] },
+        33: { a: ["잎이 반대쪽에 붙어 나고 가지 색이 자주색", "작살나무"], b: ["그렇지 않음", 34] },
+        34: { a: ["가지가 층층이 수평으로 퍼짐 (윤생)", "층층나무"], b: ["가지가 그렇지 않음", "석류나무"] },
+        35: { a: ["사계절 푸르고 잎이 두껍고 광택 있음", "동백나무"], b: ["낙엽성", 36] },
+        36: { a: ["가지에 가시 있고 잎이 작음", "명자나무"], b: ["가시 없음", 37] },
+        37: { a: ["잎이 길쭉한 타원형 또는 피침형", 38], b: ["잎이 둥근 또는 다른 모양", 45] },
+        38: { a: ["잎이 좁고 끝이 뾰족함 (시침형)", "진달래"], b: ["잎이 더 넓은 타원형", 39] },
+        39: { a: ["잎이 매우 길고 좁으며 광택 없음 (꽃/열매 확인)", "복사나무"], b: ["잎이 넓고 주름져 있음", 40] },
+        40: { a: ["나무껍질에 가로 줄무늬가 뚜렷함", "벚나무"], b: ["나무껍질이 부드럽고 매끈함", 41] },
+        41: { a: ["관목이고 잎이 매우 작음 (꽃/열매 확인)", "앵도나무"], b: ["큰키 나무이고 잎이 더 큼", 42] },
+        42: { a: ["잎이 넓은 달걀 모양이고 거침", "살구나무"], b: ["잎이 더 길고 광택 있음", "매화나무"] },
+        45: { a: ["잎 뒷면이 은빛처럼 보임", "뜰보리수"], b: ["그렇지 않음", 46] },
+        46: { a: ["잎 가장자리가 거의 밋밋하고 매끄러움", "감나무"], b: ["잎에 톱니 있음", 47] },
+        47: { a: ["큰 그늘나무이고 잎 밑부분이 비대칭", "느티나무"], b: ["그렇지 않음", 48] },
+        48: { a: ["관목이고 한 나무에 잎 형태가 다양함", "무궁화"], b: ["잎 형태가 비교적 일정함", "모과"] }
+    };
+
+    let currentStep = 1;
+    let history = [];
+
+    function updateQuiz() {
+        const stepData = keyData[currentStep];
+        
+        document.getElementById('step-badge').innerText = `Step ${currentStep}`;
+        document.getElementById('text-a').innerText = `A. ${stepData.a[0]}`;
+        document.getElementById('text-b').innerText = `B. ${stepData.b[0]}`;
+
+        // 뒤로가기 버튼 표시 여부
+        document.getElementById('back-btn').style.display = history.length > 0 ? 'inline-block' : 'none';
+
+        // 진행바 업데이트 (대략적인 위치 계산)
+        const progressPercent = Math.min((history.length / 7) * 100, 100);
+        document.getElementById('progress').style.width = `${progressPercent}%`;
     }
-  };
 
-  let currentStep = 1;
+    function selectOption(choice) {
+        history.push(currentStep);
+        const next = keyData[currentStep][choice][1];
 
-  function startQuiz() {
-    currentStep = 1;
-    document.getElementById('quiz-screen').style.display = 'block';
-    document.getElementById('result-screen').style.display = 'none';
-    renderStep();
-  }
-
-  function renderStep() {
-    const stepData = keyTree[currentStep];
-    const optionsBox = document.getElementById('options-box');
-    const questionText = document.getElementById('question-text');
-
-    questionText.innerText = `관찰하는 식물의 특징을 선택해보세요! (Step ${currentStep})`;
-    optionsBox.innerHTML = '';
-
-    Object.keys(stepData).forEach(key => {
-      const option = stepData[key];
-      const button = document.createElement('button');
-      button.className = 'btn-option';
-      button.innerText = option.text;
-      
-      button.onclick = () => {
-        if (option.result) {
-          showResult(option.result);
-        } else if (option.next) {
-          currentStep = option.next;
-          renderStep();
+        if (typeof next === 'string') {
+            // 식물 이름을 찾은 경우
+            showResult(next);
+        } else {
+            // 다음 단계로 이동
+            currentStep = next;
+            updateQuiz();
         }
-      };
-      
-      optionsBox.appendChild(button);
-    });
-  }
+    }
 
-  function showResult(plantName) {
-    document.getElementById('quiz-screen').style.display = 'none';
-    document.getElementById('result-screen').style.display = 'block';
-    document.getElementById('plant-name').innerText = plantName;
-  }
+    function goBack() {
+        if (history.length > 0) {
+            currentStep = history.pop();
+            document.getElementById('quiz-box').style.display = 'block';
+            document.getElementById('result-box').style.display = 'none';
+            updateQuiz();
+        }
+    }
 
-  // 앱 실행
-  startQuiz();
+    function showResult(plantName) {
+        document.getElementById('quiz-box').style.display = 'none';
+        document.getElementById('result-box').style.display = 'block';
+        document.getElementById('plant-name').innerText = plantName;
+    }
+
+    function restart() {
+        currentStep = 1;
+        history = [];
+        document.getElementById('quiz-box').style.display = 'block';
+        document.getElementById('result-box').style.display = 'none';
+        updateQuiz();
+    }
+
+    // 초기화 실행
+    updateQuiz();
 </script>
 
 </body>
