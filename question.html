@@ -31,6 +31,37 @@
             padding: 20px;
         }
 
+        /* 📌 상단 바 & 홈 버튼 (화면 왼쪽 상단 고정) */
+        .top-bar {
+            position: fixed;   /* 화면 전체 기준으로 위치 고정 */
+            top: 20px;         /* 위쪽 여백 */
+            left: 20px;        /* 왼쪽 여백 */
+            z-index: 1000;     /* 다른 요소 위에 표시 */
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #ffffff;
+            color: #444;
+            text-decoration: none;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            border: 1px solid #dcdcdc;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .home-btn:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+
         .container {
             background-color: var(--card-bg);
             border-radius: 20px;
@@ -41,36 +72,7 @@
             text-align: center;
             position: relative;
             overflow: hidden;
-        }
-
-        /* Top Bar & Home Button */
-        .top-bar {
-    position: fixed;   /* 화면 기준으로 위치 고정 */
-    top: 20px;         /* 위쪽 여백 */
-    left: 20px;        /* 왼쪽 여백 */
-    z-index: 1000;     /* 다른 요소 위에 표시되도록 설정 */
-    margin-bottom: 0;  /* 고정 위치이므로 기존 마진 제거 */
-}
-
-        .home-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background-color: #f0f4f8;
-            color: #444;
-            text-decoration: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            transition: all 0.2s ease;
-            border: 1px solid #dcdcdc;
-        }
-
-        .home-btn:hover {
-            background-color: var(--primary-color);
-            color: #ffffff;
-            border-color: var(--primary-color);
+            margin-top: 20px; /* 고정 버튼과 간격 유지 */
         }
 
         header h1 {
@@ -198,51 +200,51 @@
     </style>
 </head>
 <body>
- <!-- 왼쪽 상단 홈으로 버튼 영역 -->
+
+    <!-- 📌 화면 왼쪽 상단에 항상 고정되는 홈 버튼 영역 -->
     <div class="top-bar">
         <a href="./index.html" id="home-link" class="home-btn">🏠 홈으로</a>
     </div>
-<div class="container">
-   
 
-    <header>
-        <h1>🌿 학교 식물 탐험대</h1>
-        <p>질문에 답을 선택하며 학교 안 식물의 이름을 찾아보세요!</p>
-    </header>
+    <div class="container">
+        <header>
+            <h1>🌿 학교 식물 탐험대</h1>
+            <p>질문에 답을 선택하며 학교 안 식물의 이름을 찾아보세요!</p>
+        </header>
 
-    <!-- Quiz Mode -->
-    <div id="quiz-box">
-        <div class="step-badge" id="step-badge">단계 1</div>
-        <div class="question-text">관찰하고 있는 식물의 특징을 선택하세요.</div>
-        
-        <div class="options-container">
-            <button class="option-btn" id="opt-a" onclick="selectOption('a')">
-                <span id="text-a"></span>
-                <span>➔</span>
-            </button>
-            <button class="option-btn" id="opt-b" onclick="selectOption('b')">
-                <span id="text-b"></span>
-                <span>➔</span>
-            </button>
+        <!-- Quiz Mode -->
+        <div id="quiz-box">
+            <div class="step-badge" id="step-badge">단계 1</div>
+            <div class="question-text">관찰하고 있는 식물의 특징을 선택하세요.</div>
+            
+            <div class="options-container">
+                <button class="option-btn" id="opt-a" onclick="selectOption('a')">
+                    <span id="text-a"></span>
+                    <span>➔</span>
+                </button>
+                <button class="option-btn" id="opt-b" onclick="selectOption('b')">
+                    <span id="text-b"></span>
+                    <span>➔</span>
+                </button>
+            </div>
+
+            <div class="btn-group" style="margin-top: 20px;">
+                <button class="action-btn btn-back" id="back-btn" onclick="goBack()" style="display: none;">⬅ 이전으로</button>
+            </div>
         </div>
 
-        <div class="btn-group" style="margin-top: 20px;">
-            <button class="action-btn btn-back" id="back-btn" onclick="goBack()" style="display: none;">⬅ 이전으로</button>
+        <!-- Result Mode -->
+        <div id="result-box" class="result-box">
+            <div class="plant-icon">🌱</div>
+            <h2>찾은 식물 이름</h2>
+            <div class="plant-name" id="plant-name">식물 이름</div>
+            
+            <div class="btn-group">
+                <button class="action-btn btn-back" onclick="goBack()">⬅ 이전으로</button>
+                <button class="action-btn btn-restart" onclick="restart()">🔄 다시 찾기</button>
+            </div>
         </div>
     </div>
-
-    <!-- Result Mode -->
-    <div id="result-box" class="result-box">
-        <div class="plant-icon">🌱</div>
-        <h2>찾은 식물 이름</h2>
-        <div class="plant-name" id="plant-name">식물 이름</div>
-        
-        <div class="btn-group">
-            <button class="action-btn btn-back" onclick="goBack()">⬅ 이전으로</button>
-            <button class="action-btn btn-restart" onclick="restart()">🔄 다시 찾기</button>
-        </div>
-    </div>
-</div>
 
 <script>
     // 🔗 [설정] 이동하려는 홈 페이지 URL을 아래에 입력하세요.
