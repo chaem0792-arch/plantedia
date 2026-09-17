@@ -43,6 +43,35 @@
             overflow: hidden;
         }
 
+        /* Top Bar & Home Button */
+        .top-bar {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #f0f4f8;
+            color: #444;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+            border: 1px solid #dcdcdc;
+        }
+
+        .home-btn:hover {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border-color: var(--primary-color);
+        }
+
         header h1 {
             color: var(--primary-color);
             font-size: 1.8rem;
@@ -53,21 +82,6 @@
             color: #666;
             font-size: 0.95rem;
             margin-bottom: 25px;
-        }
-
-        .progress-bar {
-            background-color: #e0e0e0;
-            height: 8px;
-            border-radius: 4px;
-            margin-bottom: 25px;
-            overflow: hidden;
-        }
-
-        .progress {
-            background-color: var(--accent-color);
-            height: 100%;
-            width: 0%;
-            transition: width 0.3s ease;
         }
 
         .step-badge {
@@ -183,8 +197,13 @@
     </style>
 </head>
 <body>
-
+ <!-- 왼쪽 상단 홈으로 버튼 영역 -->
+    <div class="top-bar">
+        <a href="./index.html" id="home-link" class="home-btn">🏠 홈으로</a>
+    </div>
 <div class="container">
+   
+
     <header>
         <h1>🌿 학교 식물 탐험대</h1>
         <p>질문에 답을 선택하며 학교 안 식물의 이름을 찾아보세요!</p>
@@ -192,9 +211,6 @@
 
     <!-- Quiz Mode -->
     <div id="quiz-box">
-        <div class="progress-bar">
-            <div class="progress" id="progress"></div>
-        </div>
         <div class="step-badge" id="step-badge">단계 1</div>
         <div class="question-text">관찰하고 있는 식물의 특징을 선택하세요.</div>
         
@@ -228,6 +244,12 @@
 </div>
 
 <script>
+    // 🔗 [설정] 이동하려는 홈 페이지 URL을 아래에 입력하세요.
+    const HOME_URL = "index.html"; 
+
+    // 홈 버튼 링크 연결 설정
+    document.getElementById('home-link').href = HOME_URL;
+
     // 이분검색표 데이터베이스
     const keyData = {
         1: { a: ["줄기가 감거나 타고 올라간다", 2], b: ["스스로 곧게 자란다", 3] },
@@ -290,10 +312,6 @@
 
         // 뒤로가기 버튼 표시 여부
         document.getElementById('back-btn').style.display = history.length > 0 ? 'inline-block' : 'none';
-
-        // 진행바 업데이트 (대략적인 위치 계산)
-        const progressPercent = Math.min((history.length / 7) * 100, 100);
-        document.getElementById('progress').style.width = `${progressPercent}%`;
     }
 
     function selectOption(choice) {
@@ -301,10 +319,8 @@
         const next = keyData[currentStep][choice][1];
 
         if (typeof next === 'string') {
-            // 식물 이름을 찾은 경우
             showResult(next);
         } else {
-            // 다음 단계로 이동
             currentStep = next;
             updateQuiz();
         }
