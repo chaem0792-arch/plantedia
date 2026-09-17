@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>학교 식물 도감</title>
+  <style>
+    :root {
+      --primary-color: #1565c0;
+      --bg-color: #f0f4f9;
+      --card-bg: #ffffff;
+      --text-color: #333333;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px 15px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .btn-back {
+      text-decoration: none;
+      color: var(--primary-color);
+      font-weight: bold;
+      background: #e3f2fd;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .btn-back:hover {
+      background: #bbdefb;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: #0d47a1;
+    }
+
+    .search-box {
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 20px;
+      border: 2px solid #90caf9;
+      border-radius: 16px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--primary-color);
+    }
+
+    .plant-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .plant-card {
+      background: var(--card-bg);
+      padding: 18px 20px;
+      border-radius: 18px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--primary-color);
+    }
+
+    .plant-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #1565c0;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .plant-features {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      background: #eef7ee;
+      color: #2e7d32;
+      font-size: 0.85rem;
+      padding: 4px 10px;
+      border-radius: 10px;
+      border: 1px solid #c8e6c9;
+    }
+
+    .no-result {
+      text-align: center;
+      padding: 4px;
+      color: #777;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <a href="index.html" class="btn-back">⬅ 홈으로</a>
+    <h1>📖 학교 식물 도감</h1>
+  </div>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" class="search-input" placeholder="식물 이름이나 특징 검색 (예: 소나무, 바늘 모양)" onkeyup="filterPlants()">
+  </div>
+
+  <div class="plant-list" id="plantList">
+    <!-- JS로 자동 생성됩니다 -->
+  </div>
+  <div id="noResult" class="no-result">검색 결과가 없습니다.</div>
+</div>
+
+<script>
+  // 이분검색표 기반 식물 특징 데이터 모음
+  const plantsData = [
+    { name: "계요등", tags: ["덩굴성", "잎 1장씩 달림"] },
+    { name: "능소화", tags: ["덩굴성", "작은 잎 여러 장", "주황색 나팔꽃"] },
+    { name: "대나무", tags: ["마디가 뚜렷함", "대처럼 곧음"] },
+    { name: "메타세콰이어", tags: ["낙엽성", "침엽수", "부드러운 침엽 평평함", "키가 곧음"] },
+    { name: "소나무", tags: ["상록 침엽수", "잎 2개씩 묶여 남"] },
+    { name: "오엽송", tags: ["상록 침엽수", "잎 5개씩 묶여 남", "잎이 길고 부드러움"] },
+    { name: "섬잣나무", tags: ["상록 침엽수", "잎 5개씩 묶여 남", "잎이 비교적 짧고 굵음", "잣 달림"] },
+    { name: "주목", tags: ["상록 침엽수", "잎이 납작하고 부드러움", "붉은 열매"] },
+    { name: "실화백", tags: ["상록 침엽수", "잎이 실처럼 가늘고 늘어짐"] },
+    { name: "측백나무", tags: ["상록 침엽수", "가지가 납작하게 한 평면으로 퍼짐"] },
+    { name: "향나무", tags: ["상록 침엽수", "가지가 입체적 퍼짐", "만지면 향이 강함"] },
+    { name: "가문비나무", tags: ["상록 침엽수", "가지 둘레에 바늘잎", "향이 강하지 않음"] },
+    { name: "은행나무", tags: ["낙엽 활엽수", "잎이 부채 모양"] },
+    { name: "칠엽수", tags: ["복엽(손바닥 모양)", "한 점에서 잎 5~7장 퍼짐"] },
+    { name: "자귀나무", tags: ["복엽(깃꼴)", "작은 잎 매우 많음", "두 번 깃꼴 갈라짐"] },
+    { name: "만첩해당화", tags: ["복엽", "가시 있음", "낮게 퍼짐", "잎 두껍고 주름짐", "큰 꽃"] },
+    { name: "장미 / 월계화", tags: ["복엽", "가시 있음", "원예 품종 느낌", "꽃이 크고 자주 핌"] },
+    { name: "찔레", tags: ["복엽", "가시 있음", "야생 장미 느낌", "꽃이 작음"] },
+    { name: "가죽나무", tags: ["복엽", "가시 없음", "잎이 매우 큼", "문지르면 냄새 강함"] },
+    { name: "딱총나무", tags: ["관목", "마주나는 복엽", "가시 없음"] },
+    { name: "팔손이", tags: ["단엽", "상록수", "잎 손바닥 모양 깊게 갈라짐", "잎이 매우 크고 두껍"] },
+    { name: "공작단풍", tags: ["단엽", "낙엽성", "잎 갈래가 매우 가늘고 깊음"] },
+    { name: "단풍나무", tags: ["단엽", "낙엽성", "잎 갈래 넓음", "가을 단풍 아름다움"] },
+    { name: "모란", tags: ["관목", "잎 깊게 갈라짐", "큰 꽃을 피움"] },
+    { name: "뽕나무", tags: ["단엽", "잎 자주 갈라짐", "오디 열매 달림"] },
+    { name: "회양목", tags: ["상록수", "마주나기", "잎이 아주 작고 두꺼움", "가지 빽빽함"] },
+    { name: "사철나무", tags: ["상록 관목", "마주나기", "잎 가장자리 잔톱니"] },
+    { name: "쥐똥나무", tags: ["상록수", "마주나기", "잎 비교적 매끈", "검은 열매"] },
+    { name: "개나리", tags: ["낙엽수", "마주나기", "이른 봄 잎보다 노란 꽃 먼저 핌"] },
+    { name: "산수유", tags: ["낙엽수", "마주나기", "잎맥 활처럼 휨", "가을 빨간 열매"] },
+    { name: "배롱나무", tags: ["낙엽수", "마주나기", "나무껍질 매끈/얼룩", "여름꽃"] },
+    { name: "작살나무", tags: ["낙엽수", "마주나기", "줄기 둘레 보라색 열매 빽빽함"] },
+    { name: "층층나무", tags: ["낙엽수", "마주나기", "가지가 층층이 수평으로 퍼짐"] },
+    { name: "석류나무", tags: ["낙엽수", "마주나기", "붉은 꽃", "둥근 열매"] },
+    { name: "동백나무", tags: ["어긋나기", "상록수", "잎 두껍고 윤남", "붉은 꽃"] },
+    { name: "명자나무", tags: ["어긋나기", "낙엽수", "가시 있음", "이른 봄 붉은 꽃", "모과 닮은 열매"] },
+    { name: "진달래", tags: ["어긋나기", "가시 없음", "깔때기 모양 꽃", "잎보다 꽃이 먼저 핌"] },
+    { name: "철쭉", tags: ["어긋나기", "가시 없음", "깔때기 모양 꽃", "꽃과 잎이 거의 같이 옴"] },
+    { name: "목련", tags: ["어긋나기", "가시 없음", "매우 큰 목련 모양 꽃"] },
+    { name: "복사나무", tags: ["어긋나기", "열매에 털 많음", "잎 길고 좁음"] },
+    { name: "벚나무", tags: ["어긋나기", "줄기껍질 가로 줄무늬 뚜렷", "꽃 무리지어 핌"] },
+    { name: "앵도나무", tags: ["어긋나기", "열매 아주 작고 체리처럼 달림"] },
+    { name: "살구나무", tags: ["어긋나기", "잎 넓음", "살구 열림"] },
+    { name: "매화나무", tags: ["어긋나기", "꽃향기 남", "매실 열림"] },
+    { name: "뜰보리수", tags: ["어긋나기", "잎 뒷면 은빛"] },
+    { name: "감나무", tags: ["어긋나기", "잎 가장자리 밋밋", "감 열매"] },
+    { name: "느티나무", tags: ["어긋나기", "큰 그늘나무", "잎 밑부분 비대칭"] },
+    { name: "무궁화", tags: ["어긋나기", "관목", "여름에 큰 무궁화꽃 핌"] },
+    { name: "모과나무", tags: ["어긋나기", "나무껍질 벗겨짐", "노란 향기 나는 열매"] }
+  ];
+
+  function renderGallery(data) {
+    const list = document.getElementById('plantList');
+    list.innerHTML = '';
+    
+    if(data.length === 0) {
+      document.getElementById('noResult').style.display = 'block';
+      return;
+    } else {
+      document.getElementById('noResult').style.display = 'none';
+    }
+
+    data.forEach(plant => {
+      const card = document.createElement('div');
+      card.className = 'plant-card';
+      
+      const tagsHTML = plant.tags.map(t => `<span class="tag">#${t}</span>`).join('');
+      
+      card.innerHTML = `
+        <div class="plant-name">🌿 ${plant.name}</div>
+        <div class="plant-features">${tagsHTML}</div>
+      `;
+      list.appendChild(card);
+    });
+  }
+
+  function filterPlants() {
+    const query = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = plantsData.filter(p => {
+      return p.name.toLowerCase().includes(query) || 
+             p.tags.some(t => t.toLowerCase().includes(query));
+    });
+    renderGallery(filtered);
+  }
+
+  // 초기 로딩
+  renderGallery(plantsData);
+</script>
+
+</body>
+</html>
