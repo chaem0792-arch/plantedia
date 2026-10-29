@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>산수유나무</title>
+    <!-- 귀엽고 둥글둥글한 둥근모꼴/나눔스퀘어라운드 폰트 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumSquareRound.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'NanumSquareRound', sans-serif;
+        }
+
+        body {
+            /* 은은한 연노란 햇살 & 숲 느낌의 배경 패턴/컬러 */
+            background-color: #fbf7ee;
+            background-image: radial-gradient(#e2edd8 15%, transparent 16%);
+            background-size: 20px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 25px;
+        }
+
+        /* 전체 스크랩북 컨테이너 */
+        .tree-board {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 22px;
+            width: 100%;
+            max-width: 860px;
+            background: #ffffff;
+            padding: 30px;
+            /* 정형화되지 않은 약간 울퉁불퉁하고 동글동글한 모서리 */
+            border-radius: 35px 25px 30px 20px;
+            box-shadow: 0 12px 30px rgba(135, 120, 95, 0.08);
+            border: 3px dashed #d8e5cd;
+            position: relative;
+        }
+
+        /* 좌/우 세로 배치 */
+        .column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 카드 공통 - 오뚝이처럼 비대칭적인 귀여운 라운딩 */
+        .card {
+            background-color: #f2f7ed;
+            padding: 20px;
+            color: #3b4d3d;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.01) rotate(-0.5deg); /* 살짝 움직이는 아기자기한 효과 */
+        }
+
+        /* 스티커 라벨 헤더 */
+        .card-title {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #2e4732;
+            background: #ffffff;
+            padding: 5px 14px;
+            border-radius: 20px;
+            width: fit-content;
+            margin-bottom: 12px;
+            box-shadow: 2px 2px 0px #d0dfc5;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #556b57;
+            padding: 0 4px;
+        }
+
+        /* 1. 나무이름 (메인 간판) */
+        .tree-name {
+            height: 95px;
+            background-color: #e3efda;
+            border-radius: 28px 18px 25px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid #cce0bf;
+        }
+
+        .tree-name h1 {
+            font-size: 1.5rem;
+            color: #27422b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 2. 나무사진 (액자 프레임 느낌) */
+        .tree-photo {
+            height: 370px;
+            padding: 10px;
+            background-color: #ffffff;
+            border: 2px dashed #cae0bd;
+            border-radius: 22px 30px 20px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tree-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        .tree-photo .placeholder {
+            color: #8da18f;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 3. 관찰 포인트 */
+        .observation {
+            height: 150px;
+            background-color: #f7f3e8; /* 부드러운 우유빛 노랑 */
+            border-radius: 20px 30px 22px 18px;
+        }
+
+        .observation .card-title {
+            box-shadow: 2px 2px 0px #eee2c5;
+        }
+
+        /* 4. 주요 특징 */
+        .features {
+            height: 165px;
+            background-color: #edf5ea; /* 포근한 파스텔 그린 */
+            border-radius: 25px 20px 28px 22px;
+        }
+
+        /* 5. 꽃 / 열매 */
+        .flower-fruit {
+            height: 140px;
+            background-color: #fcf0f2; /* 연한 벚꽃 핑크 톤 포인트 */
+            border-radius: 22px 25px 18px 30px;
+        }
+
+        .flower-fruit .card-title {
+            box-shadow: 2px 2px 0px #f5d3d8;
+            color: #5a383f;
+        }
+
+        /* 모바일 대응 */
+        @media (max-width: 650px) {
+            .tree-board {
+                grid-template-columns: 1fr;
+            }
+            .tree-photo {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="tree-board">
+        <!-- 왼쪽 영역 -->
+        <div class="column">
+            <!-- 1. 나무이름 -->
+            <div class="card tree-name">
+                <h1>🌳 <span>산수유</span></h1>
+            </div>
+
+            <!-- 2. 나무사진 -->
+            <div class="card tree-photo">
+                <!-- 이미지 첨부 시 주석 해제 후 src 수정 -->
+                <img src="../images/본관 앞 산수유나무.JPG" alt="나무 사진">
+            </div>
+        </div>
+
+        <!-- 오른쪽 영역 -->
+        <div class="column">
+            <!-- 3. 관찰 포인트 -->
+            <div class="card observation">
+                <div class="card-title">🔍 관찰 포인트</div>
+                <p>봄의 노란 꽃과 가을의 붉은 열매</p>
+            </div>
+
+            <!-- 4. 주요 특징 -->
+            <div class="card features">
+                <div class="card-title">🌱 주요 특징</div>
+                <p>이른 봄에 잎보다 꽃이 먼저 피는 낙엽수</p>
+            </div>
+
+            <!-- 5. 꽃/열매 -->
+            <div class="card flower-fruit">
+                <div class="card-title">🍎 꽃 / 열매</div>
+                <p>노란색 꽃이 피고 가을에 붉은 열매가 맺힘</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리 학교 나무지도 - 나무 소개 페이지</title>
+    <!-- Google Fonts: Jua & Poor Story -->
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Poor+Story&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #e8f5e9;
+            --accent-yellow: #fff9c4;
+            --text-color: #333333;
+            --card-bg: #ffffff;
+            --border-radius: 24px;
+        }
+
+        body {
+            font-family: 'Poor Story', 'Jua', cursive, sans-serif;
+            background-color: #f1f8e9;
+            color: var(--text-color);
+            margin: 0;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #a5d6a7, #81c784);
+            color: white;
+            padding: 20px 30px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        header h1 {
+            font-family: 'Jua', sans-serif;
+            font-size: 2rem;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1rem;
+            margin-top: 6px;
+        }
+
+        .tree-card {
+            background-color: var(--card-bg);
+            border: 3px dashed #81c784;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .location-tag {
+            display: inline-block;
+            background-color: var(--accent-yellow);
+            color: #f57f17;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-family: 'Jua', sans-serif;
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            border: 1px solid #fbc02d;
+        }
+
+        .tree-title {
+            font-family: 'Jua', sans-serif;
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            margin: 0 0 20px 0;
+        }
+
+        /* Top section: Tree photo on the left, description on the right */
+        .top-section {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 25px;
+            align-items: stretch;
+        }
+
+        @media (max-width: 768px) {
+            .top-section {
+                flex-direction: column;
+            }
+        }
+
+        .image-container {
+            flex: 0 0 240px;
+            height: 200px;
+            background-color: #f5f5f5;
+            border: 2px dashed #ccc;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .description-box {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-group {
+            margin-bottom: 15px;
+        }
+
+        .info-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-family: 'Jua', sans-serif;
+            color: #558b2f;
+            font-size: 1.15rem;
+            margin-bottom: 5px;
+        }
+
+        .info-content {
+            background-color: var(--light-green);
+            padding: 12px 15px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            color: #4e342e;
+            line-height: 1.4;
+            flex-grow: 1;
+        }
+
+        /* Bottom section: Flower/Fruit photo and text */
+        .bottom-section {
+            border-top: 2px dashed #c8e6c9;
+            padding-top: 20px;
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .bottom-section {
+                flex-direction: column;
+            }
+        }
+
+        .sub-image-container {
+            flex: 0 0 160px;
+            height: 130px;
+            background-color: #f5f5f5;
+            border: 2px dashed #ccc;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sub-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sub-content-box {
+            flex: 1;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #689f38;
+            font-size: 1.05rem;
+            font-family: 'Jua', sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🌿 우리 학교 나무지도 🌳</h1>
+        <p>우리 학교의 소중한 나무를 자세히 관찰하고 소개합니다!</p>
+    </header>
+
+    <div class="tree-card">
+        <!-- 📍 위치: 지도의 장소 중 원하는 곳을 적어주세요 (예: 본관 앞 정원, 운동장 스탠드 옆 등) -->
+        <span class="location-tag">📍 위치: 본관 앞 정원</span>
+        
+        <!-- 나무 이름을 입력하세요 -->
+        <h2 class="tree-title">민서샘도 나무 하나 잡을게요</h2>
+        
+        <!-- 상단: 나무 사진(왼쪽)과 특징(오른쪽) -->
+        <div class="top-section">
+            <div class="image-container">
+                <!-- 📷 나무 전체 사진을 넣어주세요 -->
+                <img src="tree_photo.jpg" alt="나무 전체 사진">
+            </div>
+            <div class="description-box">
+                <div class="info-group" style="height: 100%; display: flex; flex-direction: column;">
+                    <div class="info-label">✨ 나무 특징</div>
+                    <div class="info-content">
+                        여기에 나무의 전체적인 생김새, 크기, 특징 등 상세한 설명을 적어주세요.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 중단: 관찰 포인트 칸 -->
+        <div class="info-group" style="margin-bottom: 20px;">
+            <div class="info-label">🔍 관찰 포인트</div>
+            <div class="info-content">
+                예: 잎사귀의 모양(갈래진 모양), 수피(나무껍질)의 결, 계절별 변화 등을 자세히 관찰할 수 있는 포인트를 적어주세요.
+            </div>
+        </div>
+
+        <!-- 하단: 꽃 또는 열매 사진과 설명 -->
+        <div class="bottom-section">
+            <div class="sub-image-container">
+                <!-- 🌸 꽃 또는 열매 사진을 넣어주세요 -->
+                <img src="flower_fruit_photo.jpg" alt="꽃 또는 열매 사진">
+            </div>
+            <div class="sub-content-box">
+                <div class="info-group">
+                    <div class="info-label">🌸 꽃 또는 열매 소개</div>
+                    <div class="info-content">
+                        이 나무에서 피는 예쁜 꽃이나 맺히는 열매의 특징, 피는 시기 등을 적어주세요.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>🌱 자연과 함께 더 푸른 우리 학교! 🌳</p>
+    </footer>
+
+</body>
+</html>
