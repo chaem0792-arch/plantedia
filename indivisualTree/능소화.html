@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>능소화</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 28px 4%;
+    background: #f8f7ee;
+    color: #405044;
+    font-family: Arial, sans-serif;
+}
+
+.page {
+    max-width: 1680px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1.08fr;
+    gap: 24px;
+}
+
+.box {
+    background: #e5efe1;
+    border: 3px solid #c6dac8;
+    border-radius: 28px;
+    box-shadow: 0 7px 0 #d5dfd6;
+    padding: 30px;
+}
+
+/* 항목명 */
+.item-title {
+    display: table;
+    margin: 0 auto 20px;
+    padding: 9px 34px 11px;
+    background: #fffdf4;
+    border: 3px solid #c9dbca;
+    border-radius: 40px;
+    box-shadow: 0 6px 0 #d3ddd4;
+
+    font-family: "Jua", sans-serif;
+    font-size: 31px;
+    line-height: 1;
+    color: #42604b;
+}
+
+.left,
+.right {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* 나무 이름 */
+.name-box {
+    height: 155px;
+    position: relative;
+}
+
+.tree-name {
+    text-align: center;
+    margin: 12px 0 0;
+
+    font-family: "Jua", sans-serif;
+    font-size: 30px;
+    color: #55745a;
+}
+
+/* 장식 */
+.name-box::before {
+    content: "🌿";
+    position: absolute;
+    top: 25px;
+    left: 35px;
+    font-size: 28px;
+}
+
+.name-box::after {
+    content: "🍃";
+    position: absolute;
+    right: 35px;
+    bottom: 22px;
+    font-size: 25px;
+}
+
+/* 나무 사진 */
+.photo-box {
+    min-height: 620px;
+    padding: 18px;
+    position: relative;
+}
+
+.photo-box .item-title {
+    position: absolute;
+    top: 7px;
+    left: 28px;
+    z-index: 2;
+    margin: 0;
+    padding: 9px 28px 11px;
+    font-size: 27px;
+}
+
+.tree-photo {
+    width: 100%;
+    height: 590px;
+    display: block;
+    object-fit: cover;
+    background: #f0f3ea;
+    border: 3px solid #c7d8ca;
+    border-radius: 22px;
+}
+
+/* 오른쪽 설명 박스 */
+.info-box {
+    min-height: 265px;
+    position: relative;
+    padding: 28px 42px;
+}
+
+/* 관찰 포인트 / 주요 특징 내용 */
+.content {
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.7;
+}
+
+.content ul {
+    margin: 0;
+    padding-left: 25px;
+}
+
+.content li {
+    padding-left: 5px;
+}
+
+/* 관찰 포인트 장식 */
+.observation::after {
+    content: "🌱";
+    position: absolute;
+    right: 25px;
+    bottom: 18px;
+    font-size: 25px;
+}
+
+/* 주요 특징 */
+.features {
+    background: #e3eee9;
+}
+
+.features::after {
+    content: "🍀";
+    position: absolute;
+    right: 25px;
+    bottom: 18px;
+    font-size: 23px;
+}
+
+/* 꽃 / 열매 */
+.flower {
+    background: #eef1e1;
+    min-height: 285px;
+}
+
+/* 꽃 / 열매 내용 */
+.flower-text {
+    font-size: 30px;
+    line-height: 1.7;
+    font-weight: 600;
+}
+
+.flower-text ul {
+    margin: 0;
+    padding-left: 25px;
+}
+
+.flower-text li {
+    padding-left: 5px;
+}
+
+.flower::after {
+    content: "🌼";
+    position: absolute;
+    right: 25px;
+    bottom: 18px;
+    font-size: 24px;
+}
+
+/* 모바일 */
+@media (max-width: 900px) {
+
+    .page {
+        grid-template-columns: 1fr;
+    }
+
+    .tree-photo {
+        height: 450px;
+    }
+
+    .photo-box {
+        min-height: 480px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="page">
+
+    <!-- 왼쪽 -->
+    <div class="left">
+
+        <!-- 나무 이름 -->
+        <section class="box name-box">
+
+            <div class="item-title">
+                나무 이름
+            </div>
+
+            <p class="tree-name">
+                능소화
+            </p>
+
+        </section>
+
+
+        <!-- 나무 사진 -->
+        <section class="box photo-box">
+
+            <div class="item-title">
+                나무 사진
+            </div>
+
+            <img
+                src="../images/지송관 옆 능소화.JPG"
+                alt="나무 사진"
+                class="tree-photo"
+            >
+
+        </section>
+
+    </div>
+
+
+    <!-- 오른쪽 -->
+    <div class="right">
+
+        <!-- 관찰 포인트 -->
+        <section class="box info-box observation">
+
+            <div class="item-title">
+                관찰 포인트
+            </div>
+
+            <div class="content">
+                <ul>
+                    <li>담장을 따라 자라는 모습</li>
+                </ul>
+            </div>
+
+        </section>
+
+
+        <!-- 주요 특징 -->
+        <section class="box info-box features">
+
+            <div class="item-title">
+                주요 특징
+            </div>
+
+            <div class="content">
+                <ul>
+                    <li>덩굴성 목본식물. 담장이나 구조물을 타고 올라감.</li>
+                </ul>
+            </div>
+
+        </section>
+
+
+        <!-- 꽃 / 열매 -->
+        <section class="box info-box flower">
+
+            <div class="item-title">
+                꽃 / 열매
+            </div>
+
+            <div class="flower-text">
+                <ul>
+                    <li>여름에 주황~주홍색 나팔 모양 꽃이 핌</li>
+                </ul>
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+</body>
+</html>
