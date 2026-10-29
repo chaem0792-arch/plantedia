@@ -162,6 +162,7 @@
             display: flex;
             gap: 10px;
             justify-content: center;
+            flex-wrap: wrap;
             margin-top: 25px;
         }
 
@@ -182,6 +183,19 @@
 
         .btn-restart:hover {
             background-color: var(--primary-hover);
+        }
+
+        .btn-detail {
+            background-color: #fff;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-detail:hover {
+            background-color: var(--primary-color);
+            color: white;
         }
 
         .btn-back {
@@ -241,6 +255,7 @@
             
             <div class="btn-group">
                 <button class="action-btn btn-back" onclick="goBack()">⬅ 이전으로</button>
+                <a class="action-btn btn-detail" id="detail-link" href="#">📖 상세 페이지 보기</a>
                 <button class="action-btn btn-restart" onclick="restart()">🔄 다시 찾기</button>
             </div>
         </div>
@@ -303,6 +318,15 @@
         48: { a: ["관목이고 한 나무에 잎 형태가 다양함", "무궁화"], b: ["잎 형태가 비교적 일정함", "모과"] }
     };
 
+    // 결과 이름과 상세 페이지 파일 이름이 다른 경우
+    const detailPageNames = {
+        "단풍": "단풍나무",
+        "메타세콰이어": "메타세쿼이아",
+        "모과": "모과나무",
+        "산수유": "산수유나무",
+        "장미 또는 월계화": "장미"
+    };
+
     let currentStep = 1;
     let history = [];
 
@@ -342,6 +366,9 @@
         document.getElementById('quiz-box').style.display = 'none';
         document.getElementById('result-box').style.display = 'block';
         document.getElementById('plant-name').innerText = plantName;
+        // 상세 페이지 링크 연결: ./indivisualTree/나무이름.html
+        const pageName = detailPageNames[plantName] || plantName;
+        document.getElementById('detail-link').href = `./indivisualTree/${encodeURIComponent(pageName)}.html`;
     }
 
     function restart() {
