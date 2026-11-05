@@ -40,10 +40,26 @@
       text-align: center;
     }
 
-    .logo-badge {
+    .tree-row {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
       font-size: 4rem;
       margin-bottom: 10px;
-      animation: bounce 2s infinite;
+    }
+
+    .tree {
+      display: inline-block;
+      transform-origin: 50% 100%;
+      animation: sway 3s ease-in-out infinite;
+    }
+
+    .tree:nth-child(2) { animation-delay: -1s; }
+    .tree:nth-child(3) { animation-delay: -2s; }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-4deg) translateY(0); }
+      50% { transform: rotate(4deg) translateY(-6px); }
     }
 
     h1 {
@@ -123,17 +139,14 @@
       font-size: 0.8rem;
       color: #888;
     }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
   </style>
 </head>
 <body>
 
 <div class="main-container">
-  <div class="logo-badge">🔍🌱🔍</div>
+  <div class="tree-row" aria-hidden="true">
+    <span class="tree">🌲</span><span class="tree">🌳</span><span class="tree">🌴</span>
+  </div>
   <h1>중앙여고 식물 탐정</h1>
   <p class="subtitle">우리 학교에 살고 있는 다양한 식물의 특징을 살펴보고,<br>이분검색표를 이용해 탐구해보아요!</p>
 
