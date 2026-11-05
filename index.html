@@ -40,10 +40,37 @@
       text-align: center;
     }
 
-    .logo-badge {
-      font-size: 4rem;
-      margin-bottom: 10px;
-      animation: bounce 2s infinite;
+    .tree-row {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 6px;
+      margin-bottom: 14px;
+      height: 96px;
+    }
+
+    .tree {
+      width: 58px;
+      height: auto;
+      transform-origin: 50% 100%;
+      animation: sway 3s ease-in-out infinite;
+    }
+
+    .tree.big { width: 72px; }
+    .tree:nth-child(1) { animation-delay: 0s; }
+    .tree:nth-child(2) { animation-delay: -0.6s; }
+    .tree:nth-child(3) { animation-delay: -1.2s; }
+    .tree:nth-child(4) { animation-delay: -1.8s; }
+    .tree:nth-child(5) { animation-delay: -2.4s; }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-3deg) translateY(0); }
+      50% { transform: rotate(3deg) translateY(-4px); }
+    }
+
+    @media (max-width: 380px) {
+      .tree { width: 48px; }
+      .tree.big { width: 60px; }
     }
 
     h1 {
@@ -123,17 +150,56 @@
       font-size: 0.8rem;
       color: #888;
     }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
   </style>
 </head>
 <body>
 
 <div class="main-container">
-  <div class="logo-badge">🔍🌱🔍</div>
+  <div class="tree-row" aria-hidden="true">
+    <!-- 침엽수 (소나무·전나무) -->
+    <svg class="tree" viewBox="0 0 64 80"><title>침엽수</title>
+      <rect x="28" y="62" width="8" height="16" rx="2" fill="#795548"/>
+      <polygon points="32,4 14,30 50,30" fill="#2e7d32"/>
+      <polygon points="32,18 10,46 54,46" fill="#388e3c"/>
+      <polygon points="32,32 6,64 58,64" fill="#43a047"/>
+    </svg>
+    <!-- 벚나무 -->
+    <svg class="tree" viewBox="0 0 64 80"><title>벚나무</title>
+      <path d="M30 78 L30 50 L22 40 M30 54 L40 42" stroke="#6d4c41" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <circle cx="20" cy="34" r="14" fill="#f8bbd0"/>
+      <circle cx="44" cy="32" r="15" fill="#f48fb1"/>
+      <circle cx="32" cy="20" r="16" fill="#f8bbd0"/>
+      <circle cx="24" cy="18" r="2.5" fill="#fff"/><circle cx="40" cy="26" r="2.5" fill="#fff"/>
+      <circle cx="18" cy="36" r="2.5" fill="#fff"/><circle cx="46" cy="38" r="2.5" fill="#fff"/>
+      <circle cx="33" cy="12" r="2.5" fill="#fff"/>
+    </svg>
+    <!-- 활엽수 (느티나무) -->
+    <svg class="tree big" viewBox="0 0 64 80"><title>활엽수</title>
+      <rect x="28" y="50" width="8" height="28" rx="2" fill="#795548"/>
+      <circle cx="18" cy="38" r="14" fill="#66bb6a"/>
+      <circle cx="46" cy="38" r="14" fill="#66bb6a"/>
+      <circle cx="32" cy="24" r="20" fill="#4caf50"/>
+      <circle cx="26" cy="18" r="5" fill="#81c784"/>
+    </svg>
+    <!-- 단풍나무 -->
+    <svg class="tree" viewBox="0 0 64 80"><title>단풍나무</title>
+      <rect x="28" y="52" width="8" height="26" rx="2" fill="#6d4c41"/>
+      <ellipse cx="32" cy="34" rx="26" ry="22" fill="#e65100"/>
+      <circle cx="20" cy="28" r="10" fill="#ff7043"/>
+      <circle cx="42" cy="24" r="11" fill="#f4511e"/>
+      <circle cx="34" cy="42" r="10" fill="#ffa000"/>
+    </svg>
+    <!-- 야자수 -->
+    <svg class="tree" viewBox="0 0 64 80"><title>야자수</title>
+      <path d="M34 78 Q30 50 34 24" stroke="#8d6e63" stroke-width="6" stroke-linecap="round" fill="none"/>
+      <path d="M34 24 Q20 12 4 22 Q20 18 34 24Z" fill="#43a047"/>
+      <path d="M34 24 Q48 10 62 20 Q48 16 34 24Z" fill="#43a047"/>
+      <path d="M34 24 Q14 24 8 40 Q22 28 34 24Z" fill="#2e7d32"/>
+      <path d="M34 24 Q54 24 60 40 Q46 28 34 24Z" fill="#2e7d32"/>
+      <path d="M34 24 Q32 8 40 2 Q36 14 34 24Z" fill="#66bb6a"/>
+      <circle cx="31" cy="27" r="3" fill="#5d4037"/><circle cx="37" cy="27" r="3" fill="#5d4037"/>
+    </svg>
+  </div>
   <h1>중앙여고 식물 탐정</h1>
   <p class="subtitle">우리 학교에 살고 있는 다양한 식물의 특징을 살펴보고,<br>이분검색표를 이용해 탐구해보아요!</p>
 
