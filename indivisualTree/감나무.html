@@ -166,15 +166,15 @@
     <!-- ===== 왼쪽: 감나무 사진 ===== -->
     <section class="photo-card">
 
-      <!-- gamnamu.jpg를 원하는 감나무 사진으로 교체하세요. -->
+      <!-- ../images/감나무3-1.JPG를 원하는 감나무 사진으로 교체하세요. -->
       <img
-        src="gamnamu.jpg"
+        src="../images/감나무3-1.JPG"
         alt="감나무 사진"
-        onerror="this.style.display='none'"
+        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
       >
 
       <!-- 사진이 없을 때 보여 주는 기본 화면 -->
-      <div class="photo-placeholder">
+      <div class="photo-placeholder" style="display:none">
         <div class="fruit">🌳 🟠</div>
         <p>가을을 담은 감나무</p>
       </div>
