@@ -114,6 +114,17 @@ body {
     .tree-summary { font-size: 15px; }
     .feature-list li { font-size: 15px; }
 }
+
+/* ===== 외부(위키미디어 공용) 사진: 흑백 표시 + 출처 ===== */
+.tree-photo--external { position: relative; }
+.tree-photo--external img { filter: grayscale(100%); }
+.photo-credit {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    margin: 0; padding: 6px 12px;
+    font-size: 12px; line-height: 1.5; color: #fff;
+    background: rgba(0, 0, 0, 0.55);
+}
+.photo-credit a { color: #fff; }
 </style>
 </head>
 <body>
@@ -121,9 +132,10 @@ body {
 <main class="tree-card">
 
     <!-- ===== 왼쪽: 나무 사진 ===== -->
-    <section class="tree-photo">
-        <!-- ✏️ [수정 2] 사진 경로(src)와 설명(alt) -->
-        <img src="../images/앵도나무.JPG" alt="앵도나무 사진">
+    <section class="tree-photo tree-photo--external">
+        <!-- 직접 찍은 사진이 없어 위키미디어 공용 사진을 흑백으로 보여 줘요. 출처: images/commons/README.md -->
+        <img src="../images/commons/앵도나무.jpg" alt="앵도나무 사진 (흑백)">
+        <p class="photo-credit">사진: А. Кабанов · <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.en" target="_blank" rel="noopener">CC0</a> · <a href="https://commons.wikimedia.org/wiki/File:Prunus_tomentosa_-_berries.JPG" target="_blank" rel="noopener">위키미디어 공용</a> · 흑백으로 바꿈</p>
     </section>
 
     <!-- ===== 오른쪽: 나무 정보 ===== -->
